@@ -1,19 +1,30 @@
 package rover;
 
-
 import java.io.IOException;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
-
+/*
+ * This class represents a rover. It processes rover instructions and moves 
+ * the rover accordingly.
+ */
 public class RoverInstructionProcesser {
 	
+	/*
+	 * A boundary within which a rover moves
+	 */
 	static public class Boundary  { 
 		/* In this simple case the boundary is a rectangle with lower left at (_x0,_y0)
 		 *  and upper right at (_x1, _x1) in the x,y coordinate space described in README.txt
 		 */
 		private int _x0, _y0, _x1, _y1;
 		
+		/*
+		 * Construct a plateau boundary
+		 * According to README.txt the plateau boundary is specified by its
+		 * top right coordinate.
+		 * @param description - textual desciption of the top right coordinate
+		 */
 		public  Boundary(String description) {
 			String[] parts = Utils.splitString(description);;
 			assert(parts.length >= 2);
@@ -23,6 +34,12 @@ public class RoverInstructionProcesser {
 			_y1 = Integer.parseInt(parts[1]);
 		}
 		
+		/*
+		 * Determine whether a coordinate is within this boundary
+		 * @param x - coordinate
+		 * @param y - coordinate
+		 * @return true if x,y is within this boundary, false otherwise
+		 */
 		public boolean contains(int x, int y) {
 			return(_x0 <= x && x <= _x1 && 
 				   _y0 <= y && y <= _y1);
@@ -41,9 +58,9 @@ public class RoverInstructionProcesser {
 	
 	/*
 	 * Construct a rover
-	 * A rover comes into existence when its starting state is specified (see README.txt)
-	 * By this time its movement boundary is known
-	 * @param boundary - rover must remain within this 
+	 * A rover comes into existence when its starting state is specified. At 
+	 *  this time its movement boundary is known (see README.txt)
+	 * @param boundary - rover must remain within this boundary 
 	 * @startingState - string representation of this rover's initial state
 	 */
 	public RoverInstructionProcesser(Boundary boundary, String startingState) throws IOException {
@@ -52,8 +69,10 @@ public class RoverInstructionProcesser {
 	}
 
 	/*
-	 * Move the rover according to a string of single character instructions as specified in README.txt
-	 * If a move is invalid then terminate movement, remaining at last valid state
+	 * Move the rover according to a string of single character instructions as 
+	 *  described in README.txt
+	 * If a move is invalid then leave the rover in it previous l state and stop 
+	 *  processing instructions.
 	 * @param instructionList - string of single character instructions
 	 */
 	public void processInstructionList(String instructionList) {
@@ -67,8 +86,8 @@ public class RoverInstructionProcesser {
 	}
 
 	/*
-	 *  Move the rover according to a single instruction if the move is valid, otherwise do
-	 *  nothing and report a failure to move
+	 *  Move the rover according to the given instruction if the move is valid, otherwise
+	 *  report a failure to move.
 	 *  @param instuction - single character instruction. See README.txt
 	 *  @return true if move was valid, false if not.
 	 */
@@ -83,7 +102,7 @@ public class RoverInstructionProcesser {
 	}
 	
 	/*
-	 * Check if a state is valid
+	 * Check if a rover state is valid
 	 * @param state - a rover state
 	 * @return true if state is valid, false if it is not
 	 */
@@ -97,7 +116,5 @@ public class RoverInstructionProcesser {
 	public String getState() {
 		return _state.asString(); 
 	}
-
-	
 	
 }

@@ -1,9 +1,6 @@
 package rover;
 
-
-
 import java.util.Map;
-
 import rover.DirectionBasedState.Direction;
 
 /*
@@ -11,39 +8,25 @@ import rover.DirectionBasedState.Direction;
  */
 class RoverState {
 	
-	/* The state comprises 
+	/* The rover state comprises 
 	 * 		x and y coordinates: _x _y  
-	 * 		direction the rover is pointing: _direction
+	 * 		the direction the rover is pointing: _direction
 	 * The x axis is west-east with west negative and east positive
 	 * The y axis is south-north with south negative and north positive
 	 */
 	int 		_x, _y;
 	Direction  _direction;
 	
-	
 	// Look up table for computing rover actions based on current state
-	private static  Map<Direction, DirectionBasedState> _directionStateTable;
+	private static  Map<Direction, DirectionBasedState> _directionStateTable = Tables_JSON.get().getDirectionStateTable(); 
 	// Look up table for character code to Direction conversion
-	private static  Map<Direction, Character> _directionCodeTable;
+	private static  Map<Direction, Character> _directionCodeTable = Tables_JSON.get().getDirectionCodeTable();
 	// Look up table for Direction to character code conversion
-	private static  Map<Character, Direction> _codeDirectionTable;
+	private static  Map<Character, Direction> _codeDirectionTable = Tables_JSON.get().getCodeDirectionTable();
 	
-	private static boolean _tablesLoaded = false;
-	
+		
 	/*
-	 * One-off loading of static tables
-	 */
-	private static void loadTables() {
-		if (!_tablesLoaded){
-			_directionStateTable = Tables_JSON.get().getDirectionStateTable(); 
-			_directionCodeTable = Tables_JSON.get().getDirectionCodeTable();  
-			_codeDirectionTable = Tables_JSON.get().getCodeDirectionTable();
-			_tablesLoaded = true;
-		}
-	}
-	
-	/*
-	 * A copy constructor is needed 
+	 * RoverState's get copies by value so a copy ctor is needed
 	 * @param state - state being copies
 	 */
 	RoverState(RoverState state) {
@@ -58,7 +41,6 @@ class RoverState {
 	 * @startingState - string representation of this rover's initial state
 	 */
 	public  RoverState(String startingState) {
-		loadTables();
 		String[] parts = Utils.splitString(startingState);;
 		assert(parts.length >= 3);
 		_x = Integer.parseInt(parts[0]);

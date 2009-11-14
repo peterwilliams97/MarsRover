@@ -10,21 +10,18 @@ import rover.RoverInstructionProcesser;
 import rover.RoverInstructionProcesser.Boundary;
 
 
-
 /*
  * Entry point for Mars Rover simulator
-
+ * 
+ * Reads instructions from stdin, moves rover accordingly, and writes
+ * final rover state (location and direction) to stdout
  */
-
 public class  CommandProcessor {
 	
-	
-	/**
-	 * 
+	/* 
 	 * Program starts here.
-	 * Set up input and output character streams and call processCommandStream()
-	 * with these streams
-	 * 
+	 * Sets up input and output character streams and calls processCommandStream()
+	 *  with these streams	 *
 	 * @param args - command line arguments
 	 * @throws IOException 
 	 */
@@ -43,7 +40,7 @@ public class  CommandProcessor {
 			input= new BufferedReader(new InputStreamReader(System.in));
 			output = new BufferedWriter(new OutputStreamWriter(System.out));
 		}
-		
+			
 		try {
 			processCommandStream(input, output) ;
 		} finally {
@@ -54,8 +51,8 @@ public class  CommandProcessor {
 	}
 	
 	/*
-	 * Process a stream of Rover commands from input and write reponse to output
-	 *  The format of command stream is given in README.TXT. The summary is
+	 * Process a stream of Rover commands from input and write response to output
+	 *  The format of the command stream is given in README.TXT and in summary is
 	 *  
 	 *  	The first line of input is the upper-right coordinates of the plateau
 	 *  	Each rover has two lines of input. The first line gives the 
@@ -85,6 +82,5 @@ public class  CommandProcessor {
 		}
 	}
 
-	
 	
 }

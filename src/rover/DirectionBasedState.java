@@ -1,12 +1,9 @@
 package rover;
 
 
-
-
-
 /*
  * This class describes where a Mars Rover pointing in a given direction 
- *  will move or turn.
+ *  will move or turn. It also maps text codes for each direction.
  *  
  *  _ahead is the direction the Rover is currently pointing
  *  _left is the direction it will point if it turns left

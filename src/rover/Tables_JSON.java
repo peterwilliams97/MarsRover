@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import rover.DirectionBasedState.Direction;
 
 /*
@@ -18,14 +17,12 @@ import rover.DirectionBasedState.Direction;
  * Storing tables in JSON files makes them easier to maintain than
  * if they were embedded in a code file.
  */
-
-
 public class Tables_JSON {
 	
 	/*
 	 * Tables_JSON is a singleton since it implements a state machine 
 	 * that is common to all Vehicles
-	 * 
+
 	 * The next few lines are the singleton implementation
 	 */
 	private static Tables_JSON _instance;
@@ -41,13 +38,13 @@ public class Tables_JSON {
 	private static final String _tableFile = "direction_based_state.json";
 	
 	/*
+	 * Singleton stuff done.
 	 * The class implementation is below
 	 */
 	
 	/*
 	 * _directionStateTable is a state table for directions.
 	 * _directionStateTable.get(p) is the DirectionBasedState for compass point p
-	 * (@see DirectionBasedState)
 	 */
 	private  Map<Direction, DirectionBasedState> _directionStateTable;
 	
@@ -59,7 +56,7 @@ public class Tables_JSON {
 	private  Map<Character, Direction> _codeDirectionTable;
 		
 	/*
-	 * Initialisation is just reading filling the tables with values
+	 * Initialisation is just filling the tables with values
 	 * read from a JSON file then validating the tables
 	 * @param fileName - name of JSON file
 	 */
@@ -74,13 +71,12 @@ public class Tables_JSON {
 	public  Map<Direction, DirectionBasedState> getDirectionStateTable() {
 		return _directionStateTable;
 	}
-		public  Map<Direction, Character> getDirectionCodeTable() {
+	public  Map<Direction, Character> getDirectionCodeTable() {
 		return _directionCodeTable;
 	}
-		public  Map<Character, Direction> getCodeDirectionTable() {
+	public  Map<Character, Direction> getCodeDirectionTable() {
 		return _codeDirectionTable;
 	}
-	
 	
 	/*
 	 * Load _directionStateTable from a JSON file
@@ -150,13 +146,14 @@ public class Tables_JSON {
 		}
 	}
 	
+	/*
+	 * Helper functions for validateTable() 
+	 */
 	private boolean isHorizontal(Direction d) {
 		return _directionStateTable.get(d).getDy() == 0;
 	}
-	
 	private boolean isVertical(Direction d) {
 		return _directionStateTable.get(d).getDx() == 0;
 	}
-	
 	
 }
