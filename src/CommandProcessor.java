@@ -20,34 +20,20 @@ public class  CommandProcessor {
 	
 	/* 
 	 * Program starts here.
-	 * Sets up input and output character streams and calls processCommandStream()
-	 *  with these streams	 *
+	 * Sets up input and output character streams to stdin and stdout respectively
+	 * then calls processCommandStream()  with these streams.
 	 * @param args - command line arguments
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException  {
-		BufferedWriter output;
-	    BufferedReader input; 
-	    boolean externFiles = true;
-		if (externFiles) {
-			assert(args.length >= 1);		
-			String infilename = args[0];
-			String outfilename = infilename + ".out";
-			input =  new BufferedReader(new FileReader(new File(infilename)));
-			output = new BufferedWriter(new FileWriter(new File(outfilename)));
-		}
-		else {
-			input= new BufferedReader(new InputStreamReader(System.in));
-			output = new BufferedWriter(new OutputStreamWriter(System.out));
-		}
-			
-		try {
-			processCommandStream(input, output) ;
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   
+	    BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out)); 
+	   	try {
+			processCommandStream(input, output);
 		} finally {
 			input.close();
 			output.close();
 		}
-		
 	}
 	
 	/*
