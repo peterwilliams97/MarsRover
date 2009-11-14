@@ -7,7 +7,7 @@ The problem is under-specified in that it does not describe what do if a Rover
 hit the boundary or another Rover. There are several ways to handle this. I have
 chosen to stop the Rover and report its position.
 
-The entry point to the code is in CommandProcessor.java
+The entry point to the code is in src/CommandProcessor.java
 
 PROBLEM
 -------
