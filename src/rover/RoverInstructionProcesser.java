@@ -41,10 +41,10 @@ public class RoverInstructionProcesser {
 	
 	/*
 	 * Construct a rover
-	 * over comes into exsitence when its starting state is specified (see README.txt)
+	 * A rover comes into existence when its starting state is specified (see README.txt)
 	 * By this time its movement boundary is known
 	 * @param boundary - rover must remain within this 
-	 * @startingState - string repesentation of this rover's initial state
+	 * @startingState - string representation of this rover's initial state
 	 */
 	public RoverInstructionProcesser(Boundary boundary, String startingState) throws IOException {
 		_boundary = boundary;
