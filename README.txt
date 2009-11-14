@@ -4,7 +4,7 @@ JAVA SOLUTION TO THE MARS ROVER PROBLEM
 The accompanying code is a solution to the Mars Rover problem described below.
 
 The problem is under-specified in that it does not describe what do if a Rover
-hit the boundary or another Rover. There are several ways to handle this. I have
+hits the boundary or another Rover. There are several ways to handle this. I have
 chosen to stop the Rover and report its position.
 
 The entry point to the code is in src/CommandProcessor.java

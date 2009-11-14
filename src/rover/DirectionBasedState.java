@@ -23,24 +23,11 @@ public class DirectionBasedState {
 	private Direction _ahead, _left, _right;
 	private int       _dx, _dy;
 	private char      _code;
-	
-	
-	/*
-	public DirectionBasedState(Direction ahead, Direction left, Direction right,
-				int dx, int dy) {	
-		_ahead = ahead;
-		_left = left;
-		_right = right;
-		_dx = dx;
-		_dy = dy;
-	}
-	*/	
+
 	public Direction getAhead() 	{ return _ahead; }
 	public Direction getLeft()      { return _left; }
 	public Direction getRight()     { return _right; }
 	public int       getDx()  		{ return _dx; }
 	public int       getDy()  		{ return _dy; }
 	public char      getCode()  	{ return _code; }
-	
-	
 }

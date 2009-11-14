@@ -29,14 +29,33 @@ public class RoverInstructionProcesser {
 		}
 	};
 	
-	private  Boundary  		_boundary;	
-	private  RoverState 	_state;
+	/*
+	 * 	The rover must stay within this boundary
+	 */
+	private  Boundary  	_boundary;	
 	
+	/*
+	 * Current state of this rover.
+	 */
+	private  RoverState _state;
+	
+	/*
+	 * Construct a rover
+	 * over comes into exsitence when its starting state is specified (see README.txt)
+	 * By this time its movement boundary is known
+	 * @param boundary - rover must remain within this 
+	 * @startingState - string repesentation of this rover's initial state
+	 */
 	public RoverInstructionProcesser(Boundary boundary, String startingState) throws IOException {
 		_boundary = boundary;
 		_state = new RoverState(startingState);
 	}
 
+	/*
+	 * Move the rover according to a string of single character instructions as specified in README.txt
+	 * If a move is invalid then terminate movement, remaining at last valid state
+	 * @param instructionList - string of single character instructions
+	 */
 	public void processInstructionList(String instructionList) {
 		boolean canMove = true;
 		CharacterIterator it = new StringCharacterIterator(instructionList);
@@ -47,6 +66,12 @@ public class RoverInstructionProcesser {
 	    }
 	}
 
+	/*
+	 *  Move the rover according to a single instruction if the move is valid, otherwise do
+	 *  nothing and report a failure to move
+	 *  @param instuction - single character instruction. See README.txt
+	 *  @return true if move was valid, false if not.
+	 */
 	private boolean processInstruction(char instruction) {
 		RoverState newState = new RoverState(_state);
 		newState.performInstruction(instruction);
@@ -57,10 +82,18 @@ public class RoverInstructionProcesser {
 		return canMove;
 	}
 	
+	/*
+	 * Check if a state is valid
+	 * @param state - a rover state
+	 * @return true if state is valid, false if it is not
+	 */
 	private boolean isValidPosition(RoverState state) {
 		return _boundary.contains(state._x, state._y); 
 	}
 	
+	/*
+	 * @return rover state
+	 */
 	public String getState() {
 		return _state.asString(); 
 	}

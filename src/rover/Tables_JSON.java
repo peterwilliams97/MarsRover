@@ -45,7 +45,7 @@ public class Tables_JSON {
 	 */
 	
 	/*
-	 * _directionStateTable is a state  table for directions.
+	 * _directionStateTable is a state table for directions.
 	 * _directionStateTable.get(p) is the DirectionBasedState for compass point p
 	 * (@see DirectionBasedState)
 	 */
