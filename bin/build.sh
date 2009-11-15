@@ -1,12 +1,5 @@
 #!/bin/bash
 
-pushd rover
+javac Rover.java
 
-javac DirectionBasedState.java
-javac DirectionTable.java
-javac Vehicle.java
-
-popd
-
-javac EntryPoint.java
-
+jar cfm Rover.jar Manifest.txt  *.class
