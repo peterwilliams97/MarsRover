@@ -14,31 +14,37 @@ import java.util.Map;
  * This program moves a squad of robotic rovers around a rectangular plateau.
  * The plateau is divided up into a grid to simplify navigation.
  * 
- * A rover's position and orientation are represented by x and y coordinates 
+ * A rover's position and direction are represented by x and y coordinates 
  * and a letter representing one of the four cardinal compass points. 
  * e.g. "0 0 N"  means the rover is in the bottom left corner facing North.
  * 
  * A rover's movement are controlled by of letters. The possible letters are 
  * 'L', 'R' and 'M'. 'L' and 'R' makes the rover spin 90 degrees left or right 
- * respectively, without moving from its current spot. 'M' means move forward 
+ * respectively without moving from its current spot. 'M' means move forward 
  * one grid point, and maintain the same heading.
  * 
- * Tthe square directly North from (x, y) is (x, y+1).
-
-INPUT:
-The first line of input is the upper-right coordinates of the plateau, the
-lower-left coordinates are assumed to be 0,0.
-
-The rest of the input is information pertaining to the rovers that have
-been deployed. Each rover has two lines of input. The first line gives the
-rover's position, and the second line is a series of instructions telling
-the rover how to explore the plateau.
-
-The position is made up of two integers and a letter separated by spaces,
-corresponding to the x and y co-ordinates and the rover's orientation.
-
-Each rover will be finished sequentially, which means that the second rover
-won't start to move until the first one has finished moving.
+ * The square directly North from (x, y) is (x, y+1).
+ * 
+ * INPUT
+ * 		The first line is the x,y coordinates of top-right of the plateau boundary. 
+ * 			e.g. "5 5" . (The lower left is at 0,0)
+ * 		The 2Nth line is the initial position/direction of the Nth rover. e.g "1 2 N"
+ * 		The 2N+1th line is the movement commands for the Nth rover. e.g "LMLMLMLMM"
+ * OUTPUT
+ * 		The Nth line is the final position and direction of the Nth rover. e.g. "1 3 N"	
+ * 
+ * Each rover will be finished sequentially, which means that the second rover
+ * won't start to move until the first one has finished moving.
+ * 
+ * UNEXECUTABLE INSTRUCTIONS 
+ * 		If a rover is started in an invalid position then it will remain there.
+ * 		If a rover is instructed to move from a valid position to an invalid position 
+ * 		then it will remain in the valid position and not exeecute any more instruction.
+ * 
+ * MALFORMED INSTRUCTIONS
+ * 		If instructions are not formated exactly as described above then this program's
+ * 		behaviour is not defined.
+ * 
  */
 @SuppressWarnings("serial")
 public class Rover {
@@ -93,7 +99,7 @@ public class Rover {
 	
 	/***********************************************************************
 	 * Some mappings between the input/output encodings and the internal state 
-	 * and state tranform representations described above.
+	 * and state transform representations described above.
 	 */
 	static final Map<Character, Integer> _codeAngleMap = new HashMap<Character, Integer>() {{
 	    put('E', 0);
@@ -102,10 +108,8 @@ public class Rover {
 	    put('S', 3);
 	}};
 	static final Map<Integer, Character> _angleCodeMap = new HashMap<Integer, Character>() {{
-	    put(0, 'E');
-	    put(1, 'N');
-	    put(2, 'W');
-	    put(3, 'S');
+		for (Character code: _codeAngleMap.keySet()) 
+			put(_codeAngleMap.get(code), code);
 	}};
 	static final Map<Character, Xform> _codeXformMap = new HashMap<Character, Xform>() {{
 	    put('M', new Xform(1, 0));
@@ -122,23 +126,25 @@ public class Rover {
 		_state = new State(description);
 	}
 
-	// Process a single movement code. 
-	// Move the rover if the transform is valid
-	// @return true for valid, false for invalid moves.
+	/* Process a single movement code.	 
+	 * Move the rover if the transform is valid
+	 *  @return true for valid, false for invalid moves.
+	 */
 	boolean performInstruction(char code) {
-		Xform m = _codeXformMap.get(code);
 		State newState = new State(_state);
-		newState.xform(m);
+		newState.xform(_codeXformMap.get(code));
 		boolean valid = isValidState(newState);
 		if (valid)
 			_state = newState;
 		return valid;
 	}
 	
-	// Process a list of movement codes moving the rover accordingly
-	// Stop when on the last valid an invalid code is reached. 
-	// If the initial state is invalid then do nothing. This is the only case
-	// that leaves the rover in an invalid state.
+	/* Process a list of movement codes moving the rover accordingly.
+	 * Stop when on the last valid an invalid code is reached. 
+	 * If the initial state is invalid then do nothing. This is the only case
+	 *  that leaves the rover in an invalid state.
+	 *  
+	 */
 	void processInstructionList(String instructionList) {
 		if (isValidState(_state)) {
 			CharacterIterator it = new StringCharacterIterator(instructionList);
@@ -155,7 +161,7 @@ public class Rover {
 	}
 	
 	/***********************************************************************
-	 * The following variables and code describe the rover's environment which
+	 * The following variables and methods describe the rover's environment which
 	 * comprises a plateau boundary and previous rovers.
 	 */
 	static public class Boundary  { 
@@ -188,13 +194,9 @@ public class Rover {
 	}
 	
 	/***********************************************************************
-	 * Process a stream of commands and respond with a stream of status strings
-	 * INPUT
-	 * 		First line is x,y coordinates of top-right of boundary. e.g. "5 5"
-	 * 		2Nth line is initial position/direction of rover N. e.g "1 2 N"
-	 * 		2N+1th line is movement commands for rover N. e.g "LMLMLMLMM"
-	 * OUTPUT
-	 * 		Nth line is the final position/direction of rover N. e.g. "1 3 N"	
+	 * Process a stream of commands and respond with a stream of status strings.
+	 * The input and output formats are specified in the INPUT and OUTPUT section
+	 * of the comments at the start of this source file	
 	 */
 	static void processCommandStream(BufferedReader input, BufferedWriter output) throws IOException {
 		String line;
