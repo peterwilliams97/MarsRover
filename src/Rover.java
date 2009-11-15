@@ -211,7 +211,7 @@ public class Rover {
 					rover.processInstructionList(line);
 				}
 				_completedRovers.add(rover);
-				output.write(rover.getState() + System.getProperty("line.separator"));
+				output.write(rover.getState() + '\n') ;
 				output.flush();
 			}
 		}
