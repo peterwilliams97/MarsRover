@@ -78,8 +78,9 @@ public class Rover {
 		}
 		
 		// Apply a transform to a rover state (see definition of Xform)
+		//  keeping _theta within the range 0..3
 		void xform(Xform m) {
-			_theta = (_theta + m._dtheta) % 4;
+			_theta = (_theta + m._dtheta) % 4; 
 			if (_theta < 0)
 				_theta += 4;
 			_x += Math.round(Math.cos((double)_theta * Math.PI/2.0) * (double)m._distance);
@@ -145,7 +146,6 @@ public class Rover {
 	 * Stop when on the last valid an invalid code is reached. 
 	 * If the initial state is invalid then do nothing. This is the only case
 	 *  that leaves the rover in an invalid state.
-	 *  
 	 */
 	void processInstructionList(String instructionList) {
 		if (isValidState(_state)) {
