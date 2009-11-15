@@ -17,13 +17,14 @@ import java.util.Map;
  * A rover's position and direction are represented by x and y coordinates 
  * and a letter representing one of the four cardinal compass points. 
  * e.g. "0 0 N"  means the rover is in the bottom left corner facing North.
+ * The square directly North of (x, y) is (x, y+1).
  * 
  * A rover's movement are controlled by of letters. The possible letters are 
  * 'L', 'R' and 'M'. 'L' and 'R' makes the rover spin 90 degrees left or right 
  * respectively without moving from its current spot. 'M' means move forward 
- * one grid point, and maintain the same heading.
+ * one grid point, and maintain the same heading. 
  * 
- * The square directly North from (x, y) is (x, y+1).
+ * Input is read from stdin and output is written to stdout.
  * 
  * INPUT
  * 		The first line is the x,y coordinates of top-right of the plateau boundary. 
@@ -53,10 +54,9 @@ public class Rover {
 	 * Class to describe a rover state
 	 */
 	static class State {
-		// Rover Position
-		int _x , _y;  	
-		// Direction rover is header. Angle is counter-clockwise from east in units of PI/2
-		int _theta;		
+		int _x , _y;  	// Rover Position
+		int _theta;		// Direction rover is header. Angle is counter-clockwise from east in units of PI/2
+		
 		// Copy constructor for deep copies
 		State (State state) {
 			_x = state._x;
@@ -64,7 +64,7 @@ public class Rover {
 			_theta = state._theta;
 		}
 		
-		// Intitialise rover from a space (not tab) separated string like '1 2 N'
+		// Initialise rover from a space separated string like "1 2 N"
 		State(String description) {
 			String[] parts = description.split(" ");
 			_x = Integer.parseInt(parts[0]);
@@ -77,7 +77,7 @@ public class Rover {
 			return "" + _x + " " + _y + " " + _angleCodeMap.get(_theta);
 		}
 		
-		// Apply a transform to a rover state (see definition of Xform
+		// Apply a transform to a rover state (see definition of Xform)
 		void xform(Xform m) {
 			_theta = (_theta + m._dtheta) % 4;
 			if (_theta < 0)
@@ -87,7 +87,7 @@ public class Rover {
 		}
 	};
 	
-	// Class that describe a state transform. It has a distance and rotation parts
+	// Class that describes a state transform. 
 	static class Xform {
 		int _distance;  	// Distance to move
 		int _dtheta;		// Angle to rotate counter-clockwise in units of PI/2
@@ -127,10 +127,12 @@ public class Rover {
 	}
 
 	/* Process a single movement code.	 
-	 * Move the rover if the transform is valid
-	 *  @return true for valid, false for invalid moves.
+	 * Move the rover if the movement is valid
+	 * @return true for valid, false for invalid moves.
 	 */
 	boolean performInstruction(char code) {
+		Xform m = _codeXformMap.get(code);
+		if (m==null) System.err.println("\nBad code:'" + code + "'");
 		State newState = new State(_state);
 		newState.xform(_codeXformMap.get(code));
 		boolean valid = isValidState(newState);
