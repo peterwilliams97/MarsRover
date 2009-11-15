@@ -25,7 +25,7 @@ public class  CommandProcessor {
 	 * @param args - command line arguments
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException  {
+	public static void _main(String[] args) throws IOException  {
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   
 	    BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out)); 
 	   	try {
