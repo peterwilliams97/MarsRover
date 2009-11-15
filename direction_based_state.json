@@ -1,6 +1,0 @@
-[
- {"_ahead":"NORTH", "_left":"WEST",  "_right":"EAST",  "_dx":0,  "_dy":1,  "_code":'N' },
- {"_ahead":"EAST",  "_left":"NORTH", "_right":"SOUTH", "_dx":1,  "_dy":0,  "_code":'E'  },
- {"_ahead":"SOUTH", "_left":"EAST",  "_right":"WEST",  "_dx":0,  "_dy":-1, "_code":'S' },
- {"_ahead":"WEST",  "_left":"SOUTH", "_right":"NORTH", "_dx":-1, "_dy":0 , "_code":'W' }
-]
