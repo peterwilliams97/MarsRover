@@ -12,17 +12,18 @@ import java.util.Map;
 
 /*
  * This program moves a squad of robotic rovers around a rectangular plateau.
- * The plateau is divided up into a grid to simplify navigation.
+ * The plateau is divided up into a grid of unit squares to simplify navigation.
  * 
  * A rover's position and direction are represented by x and y coordinates 
  * and a letter representing one of the four cardinal compass points. 
  * e.g. "0 0 N"  means the rover is in the bottom left corner facing North.
+ * 
  * The square directly North of (x, y) is (x, y+1).
  * 
- * A rover's movement are controlled by of letters. The possible letters are 
- * 'L', 'R' and 'M'. 'L' and 'R' makes the rover spin 90 degrees left or right 
+ * A rover's movement are controlled by a sequence of letters. The possible letters 
+ * are 'L', 'R' and 'M'. 'L' and 'R' makes the rover spin 90 degrees left or right 
  * respectively without moving from its current spot. 'M' means move forward 
- * one grid point, and maintain the same heading. 
+ * one grid point and maintain the same heading. 
  * 
  * Input is read from stdin and output is written to stdout.
  * 
@@ -34,19 +35,19 @@ import java.util.Map;
  * OUTPUT
  * 		The Nth line is the final position and direction of the Nth rover. e.g. "1 3 N"	
  * 
- * Each rover will be finished sequentially, which means that the second rover
+ * Each rover will be run sequentially, which means that the second rover
  * won't start to move until the first one has finished moving.
  * 
  * UNEXECUTABLE INSTRUCTIONS 
  * 		If a rover is started in an invalid position then it will remain there.
  * 		If a rover is instructed to move from a valid position to an invalid position 
- * 		then it will remain in the valid position and not exeecute any more instruction.
+ * 		 then it will remain in the valid position and not execute any more instruction.s
  * 
  * MALFORMED INSTRUCTIONS
  * 		If instructions are not formated exactly as described above then this program's
  * 		behaviour is not defined.
- * 
  */
+
 @SuppressWarnings("serial")
 public class Rover {
 	
@@ -78,7 +79,7 @@ public class Rover {
 		}
 		
 		// Apply a transform to a rover state (see definition of Xform)
-		//  keeping _theta within the range 0..3
+		//  while keeping _theta within the range 0..3
 		void xform(Xform m) {
 			_theta = (_theta + m._dtheta) % 4; 
 			if (_theta < 0)
@@ -128,12 +129,10 @@ public class Rover {
 	}
 
 	/* Process a single movement code.	 
-	 * Move the rover if the movement is valid
+	 * Move the rover if the movement code is valid
 	 * @return true for valid, false for invalid moves.
 	 */
 	boolean performInstruction(char code) {
-		Xform m = _codeXformMap.get(code);
-		if (m==null) System.err.println("\nBad code:'" + code + "'");
 		State newState = new State(_state);
 		newState.xform(_codeXformMap.get(code));
 		boolean valid = isValidState(newState);
@@ -142,8 +141,8 @@ public class Rover {
 		return valid;
 	}
 	
-	/* Process a list of movement codes moving the rover accordingly.
-	 * Stop when on the last valid an invalid code is reached. 
+	/* Process a list of movement codes and move the rover accordingly.
+	 * Stop when on the last valid  code is reached. 
 	 * If the initial state is invalid then do nothing. This is the only case
 	 *  that leaves the rover in an invalid state.
 	 */
@@ -167,7 +166,8 @@ public class Rover {
 	 * comprises a plateau boundary and previous rovers.
 	 */
 	static public class Boundary  { 
-		private int _x0 = 0, _y0 = 0, _x1 = 0, _y1 = 0;
+		private int _x0 = 0, _y0 = 0; 	// Coordinates of bottom left of boundary 
+		private int _x1 = 0, _y1 = 0;  	// Coordinates of top right of boundary 
 		public  Boundary(String description) {
 			String[] parts = description.split(" ");
 			_x1 = Integer.parseInt(parts[0]);
