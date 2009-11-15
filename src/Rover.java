@@ -54,10 +54,10 @@ public class Rover {
 	 * Class to describe a rover state
 	 */
 	static class State {
-		int _x , _y;  	// Rover Position
-		int _theta;		// Direction rover is header. Angle is counter-clockwise from east in units of PI/2
+		int _x, _y;  	// Rover position
+		int _theta;		// The angle of the direction the rover is heading in units of PI/2 (0 points east)
 		
-		// Copy constructor for deep copies
+		// Copy constructor required for deep copies
 		State (State state) {
 			_x = state._x;
 			_y = state._y;
