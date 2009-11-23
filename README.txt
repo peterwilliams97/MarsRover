@@ -10,10 +10,13 @@ Start a bash shell
 Unpack the zip archive and cd to the directory it was unpacked  to.
 
 To build the code (there is no need to do this since the code will run as supplied)
-	sh ./build.sh
+	ant jar
 
 To test the code (guidelines on interpreting results will be displayed)
 	sh ./test.sh
+
+To build and test the code in one step
+	ant test
 
 
 THE CODE
