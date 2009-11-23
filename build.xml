@@ -1,0 +1,40 @@
+<project>
+
+    <property name="src.dir"     value="src"/>
+    <property name="build.dir"   value="bin"/>
+    <property name="main-class"  value="Rover"/>
+    <property name="name"        value="Rover"/>
+
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}"/>
+    </target>
+
+    <target name="jar" depends="compile">
+	    <jar destfile="${name}.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="test" depends="compile,jar">
+        <java jar="${name}.jar" fork="true" input="input.txt" output="output.txt"/>
+	<exec executable="echo">
+	    <arg value="------------------ If the this text between this line and the final line of dashes then this test has failed ------------------"/>
+	</exec>
+	<exec executable="diff">
+	    <arg value="output.txt"/>
+	     <arg value="expected.txt"/>
+	</exec>
+	<exec executable="echo">
+	    <arg value="--------------------------------------------  This the final line of dashes ---------------------------------------------------"/>
+	</exec>
+    </target>
+
+</project>
